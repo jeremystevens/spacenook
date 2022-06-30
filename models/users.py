@@ -25,7 +25,6 @@
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData, DateTime, func
-from app import db
 
 db = SQLAlchemy()
 

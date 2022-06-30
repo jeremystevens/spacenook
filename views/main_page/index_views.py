@@ -34,15 +34,15 @@ from models.users import Users
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
-bp = Blueprint("index", __name__, url_prefix="/")
-
+bp = Blueprint("index_views", __name__, url_prefix="/")
 
 #  index and login page
 @bp.route("/", methods=["GET", "POST"])
 def index():
     # if user is already logged in
     if "user_id" in session:
-        return redirect(url_for("main_page.main_page"))
+        pass
+        #return redirect(url_for("main_page.main_page"))
     # if login form is submitted
     if flask.request.method == 'POST':
         username = flask.request.form['username']
@@ -55,6 +55,18 @@ def index():
 @bp.route("/register", methods=["GET", "POST"])
 def register():
     if flask.request.method == 'POST':
+        # get form data
+        firstname = flask.request.form['inputFirstName']
+        lastname = flask.request.form['inputLastName']
+        email = flask.request.form['inputEmail']
+        username = flask.request.form['inputUsername']
+        password = flask.request.form['inputPassword']
+        # create new user
+        new_user = Users(firstname, lastname, email, username, password)
+        # add user to database
+        new_user.add_user()
+        # redirect to login page
+        return redirect(url_for("index_views.index"))
         pass
     # if GET request show register form
     return render_template("main_page/register.html")
