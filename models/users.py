@@ -29,6 +29,7 @@ from app import db
 
 db = SQLAlchemy()
 
+
 # user login db
 class Users(db.Model):
     # username db
@@ -41,8 +42,3 @@ class Users(db.Model):
     is_blocked = db.Column(db.Boolean, default=False)
     created_at = db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(DateTime(timezone=True), onupdate=func.now())
-
-
-
-
-
