@@ -22,8 +22,6 @@
 __version__ = '0.0.1'  # current version
 
 # ============================================================
-import flask_login
-
 """ app.py: - the main flask server """
 # ============================================================
 
@@ -31,7 +29,7 @@ from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-
+import flask_login
 
 """General Config"""
 db = SQLAlchemy()
@@ -84,14 +82,13 @@ def page_not_found(e):
 def internal_server_error(e):
     return render_template("error_pages/500.html"), 500
 
+
 #  Register Error Handlers
 
 
 app.register_error_handler(404, page_not_found)
 
 app.register_error_handler(500, internal_server_error)
-
-
 
 """
   =====================================
@@ -107,9 +104,6 @@ from views.main_page import index_views
 # Index Page - /
 app.register_blueprint(index_views.bp)
 
-
 if __name__ == '__main__':
     app.run(debug=True)
-    #app.run(host="0.0.0.0", port=8080)
-
-
+    # app.run(host="0.0.0.0", port=8080)
