@@ -7,7 +7,7 @@ Development TODO list
 - [ ] Login to the server
 
 ### Profile Page.
-####Models 
+#### Models 
 - [ ] Contacts Model A.K.A Friends List  
 - [ ] Location Model 
 - [ ] Post Model 
@@ -20,7 +20,8 @@ Development TODO list
 - [ ] Tags Model
 - [ ] User Settings Model
 - [ ] Block List Model
-####VIEWS
+
+#### VIEWS
 - [ ] Profile Page
 - [ ] Edit Profile Page
 - [ ] Friends List Page
@@ -29,11 +30,11 @@ Development TODO list
 - [ ] Photo Album Page
 
 ## Private Messaging 
-### Models 
+#### Models 
 - [ ] Private Messages model
 - [ ] Participants model
 - [ ] Conversation Model
 - [ ] Deleted Conversations models
 - [ ] Deleted Messages Model
-### VIEWS
+#### VIEWS
 - [ ] Private Messages Page
