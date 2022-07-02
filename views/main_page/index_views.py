@@ -21,18 +21,24 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 __version__ = '0.0.1'  # current version
 __author__ = 'Jeremy Stevens'  # author
-
+__revision__ = '1' # revision
 # ============================================================
-import flask
 
+from sqlalchemy import create_engine
+import flask
+import flask_login
+from werkzeug.security import check_password_hash, generate_password_hash
 """ index_views.py - main index page """
 # ============================================================
 
-from flask import Blueprint, url_for, redirect, current_app, session, render_template
+from flask import Blueprint, url_for, redirect, current_app, session, render_template, request, flash
 # import users from models
-from models.users import Users
+from models.users import Users, db
 from werkzeug.security import check_password_hash, generate_password_hash
+# use SQLALCHEMY_DATABASE_URI to connect to the database
+from config import SQLALCHEMY_DATABASE_URI
 
+engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
 
 bp = Blueprint("index_views", __name__, url_prefix="/")
 
@@ -54,20 +60,27 @@ def index():
 # register new account
 @bp.route("/register", methods=["GET", "POST"])
 def register():
-    if flask.request.method == 'POST':
+
+    if request.method == 'GET':
+
+        return render_template("main_page/register.html")
         # get form data
-        firstname = flask.request.form['inputFirstName']
-        lastname = flask.request.form['inputLastName']
-        email = flask.request.form['inputEmail']
-        username = flask.request.form['inputUsername']
-        password = flask.request.form['inputPassword']
-        # create new user
-        new_user = Users(firstname, lastname, email, username, password)
-        # add user to database
-        new_user.add_user()
-        # redirect to login page
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        password = request.form['password']
+        email = request.form['email']
+        # check if email is already in use
+        if Users.query.filter_by(email=email).first():
+            flash ("Email already in use, please use another email")
+            return redirect(url_for("index_views.register"))
+        # create new user in Users
+        users = Users()
+        db.session.add(Users(password=password, email=email))
+        db.session.commit()
+        flash("Account created, you can now login")
+        # redirect to login page after registration
         return redirect(url_for("index_views.index"))
-        pass
-    # if GET request show register form
-    return render_template("main_page/register.html")
+
+
 

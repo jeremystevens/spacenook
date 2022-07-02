@@ -33,7 +33,7 @@ db = SQLAlchemy()
 class Users(db.Model):
     # username db
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(80), unique=True, nullable=True)
     password = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)  # is active
     is_active = db.Column(db.Boolean, default=False)
