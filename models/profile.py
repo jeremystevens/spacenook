@@ -20,7 +20,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # ============================================================
-#    Users Model Version 0.0.1
+#    profile Model Version 0.0.1
 # ============================================================
 
 from flask_sqlalchemy import SQLAlchemy
@@ -29,14 +29,16 @@ from sqlalchemy import MetaData, DateTime, func
 db = SQLAlchemy()
 
 
-# user login db
-class Users(db.Model):
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=True)
-    password = db.Column(db.String(150), nullable=False)
-    email = db.Column(db.String(80), unique=True, nullable=False)  # is active
-    is_active = db.Column(db.Boolean, default=False)
-    is_reported = db.Column(db.Boolean, default=False)
-    is_blocked = db.Column(db.Boolean, default=False)
-    created_at = db.Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = db.Column(DateTime(timezone=True), onupdate=func.now())
+class Profile(db.Model):
+    userProfileID = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    userID = db.Column(db.Integer, nullable=False)
+    firstName = db.Column(db.String(80), nullable=False)
+    lastName = db.Column(db.String(80), nullable=False)
+    locationID = db.Column(db.Integer, nullable=True)
+    # gender charset
+    gender = db.Column(db.String(50), nullable=True)
+    # date of birth Column
+    dob = db.Column(db.String(200), nullable=True)
+    occupation = db.Column(db.String(200), nullable=True)
+    about = db.Column(db.Text(6400), nullable=True)
+    dateUpdated = db.Column(DateTime(timezone=True), server_default=func.now())

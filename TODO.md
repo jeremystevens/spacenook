@@ -4,7 +4,7 @@ Development TODO list
 - [ ] Create Profile Model 
 - [ ] Create Profile Table for Users
 ### Login 
-- [ ] Login to the server
+- [x] Login to the server
 
 ### Profile Page.
 #### Models 

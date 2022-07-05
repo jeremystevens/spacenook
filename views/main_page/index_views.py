@@ -37,6 +37,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Blueprint, url_for, redirect, current_app, session, render_template, request, flash
 # import users from models
 from models.users import Users, db
+from models.profile import Profile, db
 from werkzeug.security import check_password_hash, generate_password_hash
 # use SQLALCHEMY_DATABASE_URI to connect to the database
 from config import SQLALCHEMY_DATABASE_URI
@@ -83,14 +84,25 @@ def register():
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         password = request.form['password']
+        password = generate_password_hash(password)
         email = request.form['email']
         # check if email is already in use
         if Users.query.filter_by(email=email).first():
             flash("Email already in use, please use another email")
             return redirect(url_for("index_views.register"))
-        # create new user in Users
         users = Users()
+        # get userid
         db.session.add(Users(password=password, email=email))
+        db.session.commit()
+        # get the current ID column from the database
+        # does not work if you use the ID from the database
+       # get the last inserted ID from the database
+        user_id = db.session.query(Users.id).order_by(Users.id.desc()).first()
+        user_id = user_id[0]
+        print(user_id)
+        # add First Name and Last Name to the Profile model
+        db.session.add(Profile(firstName=first_name, lastName=last_name, locationID='0', userID=user_id))
+        # commit
         db.session.commit()
         flash("Account created, you can now login")
         # redirect to login page after registration
